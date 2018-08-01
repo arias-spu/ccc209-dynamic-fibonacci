@@ -16,7 +16,7 @@ using std::ofstream;
 unsigned long NormalFibonacci(unsigned short);
 unsigned long DynamicFibonacci(unsigned short);
 
-map<unsigned short, unsigned long> fiboMap;
+
 
 int main(int argc, char* argv[]){
     if (argc != 3){
@@ -25,10 +25,6 @@ int main(int argc, char* argv[]){
     }
     size_t n = atoi(argv[1]);
     ofstream output(argv[2]);
-// ----------------------------------------------
-    fiboMap[0] = 0;
-    fiboMap[1] = 1;
-// ----------------------------------------------
     clock_t start, end;
     unsigned long normalFibonacciTicks, dynamicFibonacciTicks;
     for (size_t i = 0; i < n; i++) {
@@ -61,6 +57,15 @@ unsigned long NormalFibonacci(unsigned short n){
 }
 
 unsigned long DynamicFibonacci(unsigned short n){
+    static map<unsigned short, unsigned long> fiboMap;
+    static bool initialized = false;
+    if (!initialized){
+        // ----------------------------------------------
+            fiboMap[0] = 0;
+            fiboMap[1] = 1;
+        // ----------------------------------------------
+        initialized = true;
+    }
     if (fiboMap.find(n) != fiboMap.end())
         return fiboMap[n];
     unsigned long f2, f1;
